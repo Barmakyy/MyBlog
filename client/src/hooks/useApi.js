@@ -6,12 +6,18 @@ export default function useApi(url, method = 'get', body = null, immediate = tru
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Prefix url with backend if not absolute
+  const getFullUrl = (url) => {
+    if (/^https?:\/\//.test(url)) return url;
+    return `https://myblog-xv15.onrender.com/api${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   const execute = async (overrideBody = null) => {
     setLoading(true);
     setError('');
     try {
       const response = await axios({
-        url,
+        url: getFullUrl(url),
         method,
         data: overrideBody !== null ? overrideBody : body,
       });

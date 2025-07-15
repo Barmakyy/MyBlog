@@ -16,6 +16,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
+  const API_BASE = 'https://myblog-xv15.onrender.com/api';
+
   // Set up axios default headers
   useEffect(() => {
     if (token) {
@@ -25,6 +27,7 @@ export const AuthProvider = ({ children }) => {
       delete axios.defaults.headers.common['Authorization'];
       localStorage.removeItem('token');
     }
+    axios.defaults.baseURL = API_BASE;
   }, [token]);
 
   // Check if user is authenticated on app load
@@ -32,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await axios.get('/api/auth/me');
+          const response = await axios.get(`${API_BASE}/auth/me`);
           setUser(response.data.user);
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -48,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await axios.post(`${API_BASE}/auth/login`, { email, password });
       const { token: newToken, user: userData } = response.data;
       setToken(newToken);
       setUser(userData);
@@ -63,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post('/api/auth/register', { 
+      const response = await axios.post(`${API_BASE}/auth/register`, { 
         username, 
         email, 
         password 

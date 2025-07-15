@@ -10,15 +10,17 @@ export default function PostForm({ editMode }) {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
 
+  const API_BASE = 'https://myblog-xv15.onrender.com/api';
+
   // Fetch categories for dropdown
   useEffect(() => {
-    axios.get('/api/categories').then(res => setCategories(res.data));
+    axios.get(`${API_BASE}/categories`).then(res => setCategories(res.data));
   }, []);
 
   // If editing, fetch post data
   useEffect(() => {
     if (editMode && id) {
-      axios.get(`/api/posts/${id}`).then(res => {
+      axios.get(`${API_BASE}/posts/${id}`).then(res => {
         setForm({
           title: res.data.title,
           content: res.data.content,
@@ -36,9 +38,9 @@ export default function PostForm({ editMode }) {
     e.preventDefault();
     try {
       if (editMode) {
-        await axios.put(`/api/posts/${id}`, form);
+        await axios.put(`${API_BASE}/posts/${id}`, form);
       } else {
-        await axios.post('/api/posts', form);
+        await axios.post(`${API_BASE}/posts`, form);
       }
       navigate('/');
     } catch (err) {

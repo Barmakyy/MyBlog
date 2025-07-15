@@ -6,11 +6,13 @@ export default function SearchBar({ onSearch, onCategoryChange }) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
 
+  const API_BASE = 'https://myblog-xv15.onrender.com/api';
+
   useEffect(() => {
     // Fetch categories for filter dropdown
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/api/categories');
+        const response = await axios.get(`${API_BASE}/categories`);
         setCategories(response.data);
       } catch (error) {
         console.error('Failed to fetch categories:', error);

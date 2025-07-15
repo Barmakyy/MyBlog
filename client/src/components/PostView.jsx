@@ -7,13 +7,15 @@ export default function PostView() {
   const navigate = useNavigate();
   const { data: post, error, loading } = useApi(`/api/posts/${id}`);
 
+  const API_BASE = 'https://myblog-xv15.onrender.com/api';
+
   const handleDelete = async () => {
     if (!window.confirm(`Are you sure you want to delete "${post.title}"?`)) {
       return;
     }
 
     try {
-      await axios.delete(`/api/posts/${id}`);
+      await axios.delete(`${API_BASE}/posts/${id}`);
       navigate('/'); // Redirect to post list
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to delete post');
