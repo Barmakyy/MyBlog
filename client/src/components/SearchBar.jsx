@@ -12,7 +12,7 @@ export default function SearchBar({ onSearch, onCategoryChange }) {
     // Fetch categories for filter dropdown
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${API_BASE}/categories`);
+        const response = await axios.get(`${API_BASE}/categories`.replace('/api/api', '/api'));
         setCategories(response.data);
       } catch (error) {
         console.error('Failed to fetch categories:', error);

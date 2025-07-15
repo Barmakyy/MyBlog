@@ -14,13 +14,13 @@ export default function PostForm({ editMode }) {
 
   // Fetch categories for dropdown
   useEffect(() => {
-    axios.get(`${API_BASE}/categories`).then(res => setCategories(res.data));
+    axios.get(`${API_BASE}/categories`.replace('/api/api', '/api')).then(res => setCategories(res.data));
   }, []);
 
   // If editing, fetch post data
   useEffect(() => {
     if (editMode && id) {
-      axios.get(`${API_BASE}/posts/${id}`).then(res => {
+      axios.get(`${API_BASE}/posts/${id}`.replace('/api/api', '/api')).then(res => {
         setForm({
           title: res.data.title,
           content: res.data.content,
@@ -38,9 +38,9 @@ export default function PostForm({ editMode }) {
     e.preventDefault();
     try {
       if (editMode) {
-        await axios.put(`${API_BASE}/posts/${id}`, form);
+        await axios.put(`${API_BASE}/posts/${id}`.replace('/api/api', '/api'), form);
       } else {
-        await axios.post(`${API_BASE}/posts`, form);
+        await axios.post(`${API_BASE}/posts`.replace('/api/api', '/api'), form);
       }
       navigate('/');
     } catch (err) {

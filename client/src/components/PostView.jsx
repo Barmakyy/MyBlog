@@ -15,7 +15,7 @@ export default function PostView() {
     }
 
     try {
-      await axios.delete(`${API_BASE}/posts/${id}`);
+      await axios.delete(`${API_BASE}/posts/${id}`.replace('/api/api', '/api'));
       navigate('/'); // Redirect to post list
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to delete post');

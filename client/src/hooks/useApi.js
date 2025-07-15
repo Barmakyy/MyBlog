@@ -9,7 +9,9 @@ export default function useApi(url, method = 'get', body = null, immediate = tru
   // Prefix url with backend if not absolute
   const getFullUrl = (url) => {
     if (/^https?:\/\//.test(url)) return url;
-    return `https://myblog-xv15.onrender.com/api${url.startsWith('/') ? '' : '/'}${url}`;
+    // Remove leading '/api' if present
+    const cleanUrl = url.replace(/^\/api\/?/, '/');
+    return `https://myblog-xv15.onrender.com/api${cleanUrl.startsWith('/') ? '' : '/'}${cleanUrl}`;
   };
 
   const execute = async (overrideBody = null) => {

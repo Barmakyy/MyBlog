@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await axios.get(`${API_BASE}/auth/me`);
+          const response = await axios.get(`${API_BASE}/auth/me`.replace('/api/api', '/api'));
           setUser(response.data.user);
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${API_BASE}/auth/login`, { email, password });
+      const response = await axios.post(`${API_BASE}/auth/login`.replace('/api/api', '/api'), { email, password });
       const { token: newToken, user: userData } = response.data;
       setToken(newToken);
       setUser(userData);
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post(`${API_BASE}/auth/register`, { 
+      const response = await axios.post(`${API_BASE}/auth/register`.replace('/api/api', '/api'), { 
         username, 
         email, 
         password 
